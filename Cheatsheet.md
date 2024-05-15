@@ -85,3 +85,75 @@ Certainly! Here's an organized breakdown of the key protocols across various lay
 
 ### Summary
 These protocols enable efficient communication and data transfer across different layers of a network, from physical connections to application-level interactions, ensuring that devices can connect, communicate, and exchange data reliably and securely.
+
+Sure, here's a condensed cheat sheet based on the provided information:
+
+---
+
+### Cisco IOS Command Modes and Prompts
+
+![user and privileged mode](cli_user_mode.png)
+
+**User Exec Mode**
+- Limited capabilities, view-only mode.
+- Identified by the CLI prompt ending with `>`.
+- Default Device Prompt: `Switch>` or `Router>`
+
+**Privileged Exec Mode**
+- Access to all commands and features.
+- Identified by the prompt ending with `#`.
+- Default Device Prompt: `Switch#` or `Router#`
+
+**Global Configuration Mode**
+- Configure device-wide settings.
+- Prompt: `<DeviceName>(config)#`
+
+### Moving Between Modes
+
+- User Exec to Privileged Exec: `enable`
+- Privileged Exec to User Exec: `disable`
+- Global Config Mode: `configure terminal`
+- Return to Privileged Exec Mode: `exit`
+
+### Subconfiguration Modes
+
+- **Line Configuration Mode**: `line <line-type> <line-number>`
+- **Interface Configuration Mode**: `interface <interface-name>`
+
+### Naming Guidelines for Hosts
+
+- Start with a letter
+- Contain no spaces
+- End with a letter or digit
+- Use only letters, digits, and dashes
+- Less than 64 characters
+
+### Setting Hostname
+
+```
+Switch# configure terminal
+Switch(config)# hostname <NewHostName>
+```
+
+### Banner Message of the Day
+
+```
+Switch# configure terminal
+Switch(config)# banner motd #<Message>#
+```
+### Navigating between IOS Modes
+
+- to enter line subconfiguration mode, you use the line command followed by the management line type and number you wish to access. Use the exit command to exit a subconfiguration mode and return to global configuration mode.
+![ios_mode](navigate_ios_mode(1).png)
+
+- To move from any subconfiguration mode of the global configuration mode to the mode one step above it in the hierarchy of modes, enter the exit command.
+
+- To move from any subconfiguration mode to the privileged EXEC mode, enter the end command or enter the key combination Ctrl+Z.
+![ios_mode(2)](navigate_ios_mode(2).png)
+
+- You can also move directly from one subconfiguration mode to another. Notice how after selecting an interface, the command prompt changes from (config-line)# to (config-if)#.
+
+![ios_mode(3)](navigate_ios_mode(3).png)
+
+### IOS Command Syntax Check
+![command_sytnax](command_syntax_check.png)
