@@ -1,4 +1,4 @@
-# Application Protocols
+Certainly! Here's an organized breakdown of the key protocols across various layers of the networking model:
 
 ### Network Access Layer
 1. **ARP (Address Resolution Protocol)**
@@ -86,152 +86,6 @@
 ### Summary
 These protocols enable efficient communication and data transfer across different layers of a network, from physical connections to application-level interactions, ensuring that devices can connect, communicate, and exchange data reliably and securely.
 
-
-## VLSM
-
-Variable Length Subnet Masking (VLSM) is a technique used in IP addressing and subnetting to allocate IP addresses efficiently by allowing different subnets to have subnet masks of varying lengths. This enables more precise allocation of IP addresses based on the needs of each subnet.
-
-Here's a step-by-step explanation of VLSM:
-
-1. **Identify Subnets and Host Requirements**: Begin by listing all the subnets that need to be created, along with their respective host requirements. The host requirement for each subnet is the number of end devices in that subnet plus the default gateway for that subnet.
-
-2. **Order Subnets by Host Requirements**: Arrange the subnets in descending order of their host requirements, starting from the subnet with the highest host requirement to the one with the lowest.
-
-3. **Allocate Prefix Lengths**: For each subnet, find the largest valid prefix length (subnet mask) that can accommodate the host requirement. This involves determining the number of bits required to satisfy the host requirement. The formula to calculate this is \(2^h \geq \text{host requirement}\), where \(h\) is the number of bits remaining in the host portion of the IP address.
-
-4. **Calculate IP Chunk Size**: Once the prefix length is determined for each subnet, calculate the size of the IP chunk for each subnet. This is calculated as \(2^h\), where \(h\) is the number of bits remaining in the host portion after subnetting.
-
-5. **Assign Subnet Addresses**: Start with the subnet address of the largest subnet (with the highest host requirement) and allocate IP addresses accordingly. Then, for each subsequent subnet, calculate the subnet address by adding the size of the IP chunk of the current subnet to the subnet address of the previous subnet.
-
-6. **Configure Subnet Masks**: Assign the appropriate subnet masks to each subnet based on the prefix lengths determined in step 3.
-
-By following these steps, VLSM allows for efficient utilization of IP addresses by allocating them based on the specific requirements of each subnet, thereby reducing IP address wastage and optimizing address space usage.
-
-### Examples 
-
-**Step 1: Identify Subnets and Host Requirements**
-Consider a network that needs to be subnetted into four subnets with the following host requirements:
-- Subnet A: 60 hosts
-- Subnet B: 30 hosts
-- Subnet C: 12 hosts
-- Subnet D: 6 hosts
-
-**Step 2: Order Subnets by Host Requirements**
-Arrange the subnets in descending order of their host requirements:
-1. Subnet A (60 hosts)
-2. Subnet B (30 hosts)
-3. Subnet C (12 hosts)
-4. Subnet D (6 hosts)
-
-**Step 3: Allocate Prefix Lengths**
-For each subnet, find the largest valid prefix length that can accommodate the host requirement.
-
-- Subnet A (60 hosts):
-  - \(2^6 = 64 \geq 60\), so we need at least 6 bits for hosts.
-  - The subnet mask for Subnet A will be /26.
-- Subnet B (30 hosts):
-  - \(2^5 = 32 \geq 30\), so we need at least 5 bits for hosts.
-  - The subnet mask for Subnet B will be /27.
-- Subnet C (12 hosts):
-  - \(2^4 = 16 \geq 12\), so we need at least 4 bits for hosts.
-  - The subnet mask for Subnet C will be /28.
-- Subnet D (6 hosts):
-  - \(2^3 = 8 \geq 6\), so we need at least 3 bits for hosts.
-  - The subnet mask for Subnet D will be /29.
-
-**Step 4: Calculate IP Chunk Size**
-Calculate the size of the IP chunk for each subnet.
-
-- Subnet A (/26): \(2^6 = 64\)
-- Subnet B (/27): \(2^5 = 32\)
-- Subnet C (/28): \(2^4 = 16\)
-- Subnet D (/29): \(2^3 = 8\)
-
-**Step 5: Assign Subnet Addresses**
-Start with a base IP address and allocate addresses for each subnet, ensuring that each subnet falls within its allocated address range.
-
-Let's assume the base IP address is 192.168.1.0:
-
-- Subnet A (/26): 192.168.1.0 (64 hosts)
-- Subnet B (/27): 192.168.1.64 (32 hosts)
-- Subnet C (/28): 192.168.1.96 (16 hosts)
-- Subnet D (/29): 192.168.1.112 (8 hosts)
-
-**Step 6: Configure Subnet Masks**
-Assign the appropriate subnet masks to each subnet based on the prefix lengths determined earlier.
-
-- Subnet A (/26): 255.255.255.192
-- Subnet B (/27): 255.255.255.224
-- Subnet C (/28): 255.255.255.240
-- Subnet D (/29): 255.255.255.248
-
-## VLSM vs FLSM
-
-Sure, let's illustrate both FLSM and VLSM with a simple example:
-
-**Example Scenario:**
-Suppose we have a network with the IP address range 192.168.1.0/24 and we need to create four subnets with the following host requirements:
-1. Subnet A: 60 hosts
-2. Subnet B: 30 hosts
-3. Subnet C: 12 hosts
-4. Subnet D: 6 hosts
-
-**Fixed Length Subnet Masking (FLSM) Example:**
-
-For FLSM, we'll divide the network into four equal-sized subnets, each with a subnet mask of /26 (which provides 64 hosts per subnet).
-
-- Subnet A: 192.168.1.0/26 (addresses 192.168.1.1 to 192.168.1.62, with 192.168.1.0 reserved as the network address and 192.168.1.63 reserved as the broadcast address)
-- Subnet B: 192.168.1.64/26 (addresses 192.168.1.65 to 192.168.1.126)
-- Subnet C: 192.168.1.128/26 (addresses 192.168.1.129 to 192.168.1.190)
-- Subnet D: 192.168.1.192/26 (addresses 192.168.1.193 to 192.168.1.254)
-
-With FLSM, each subnet gets the same number of IP addresses (64), regardless of its actual host requirement. This may lead to inefficient utilization of IP addresses.
-
-**Variable Length Subnet Masking (VLSM) Example:**
-
-For VLSM, we'll allocate subnet masks based on the specific host requirements of each subnet, starting with the subnet requiring the largest number of hosts.
-
-1. Subnet A: Requires 60 hosts. We can use a /26 subnet mask (providing 64 hosts).
-2. Subnet B: Requires 30 hosts. We can use a /27 subnet mask (providing 32 hosts).
-3. Subnet C: Requires 12 hosts. We can use a /28 subnet mask (providing 16 hosts).
-4. Subnet D: Requires 6 hosts. We can use a /29 subnet mask (providing 8 hosts).
-
-- Subnet A: 192.168.1.0/26 (addresses 192.168.1.1 to 192.168.1.62)
-- Subnet B: 192.168.1.64/27 (addresses 192.168.1.65 to 192.168.1.94)
-- Subnet C: 192.168.1.96/28 (addresses 192.168.1.97 to 192.168.1.110)
-- Subnet D: 192.168.1.112/29 (addresses 192.168.1.113 to 192.168.1.118)
-
-With VLSM, each subnet gets a subnet mask tailored to its specific host requirement, resulting in more efficient utilization of IP addresses compared to FLSM.
-
-# Copper Media
-
-Shielding:
-Purpose: Shields in cables protect against electromagnetic and radio frequency interference (EMI/RFI) that can disrupt signals.
-Types:
-- Foil Shielding: Consists of a thin layer of metallic foil.
-- Braided Shielding: Comprises a woven mesh of metallic strands.
-Applications: Commonly used in environments with high interference, such as industries and data centers.
-
-Twisted Pair Cables:
-Structure: Made up of pairs of twisted copper wires to reduce interference.
-Types:
-- STP (Shielded Twisted Pair): Includes external shielding for added protection.
-- UTP (Unshielded Twisted Pair): Relies solely on twisting for interference reduction.
-Usage: Widely utilized in Ethernet networks and telecommunications systems.
-
-Coaxial Cables:
-Shielding: Equipped with built-in shielding comprising layers for signal protection.
-Applications: Frequently employed in cable TV connections, broadband internet, and high-frequency data transmission scenarios.
-
-Fiber Optic Cables:
-Immunity: Immune to EMI/RFI interference due to their light-based signal transmission.
-Advantages: Offer high bandwidth, minimal signal loss over long distances, and secure data transmission capabilities.
-
-![Network Media](image-1.png)
-![Topology](image.png)
-<sub><sup>Left is physical, Right is Logical</sup></sub>
-
-
 Sure, here's a condensed cheat sheet based on the provided information:
 
 ---
@@ -313,85 +167,121 @@ Switch(config)# banner motd #<Message>#
 
 - To secure privileged EXEC access, use the enable secret password global config command, as shown in the example.
 
-![configure_password](configure_passwords(2).png)
+![configure_password(2)](configure_passwords(2).png)
 
----
-# Subnetting
+- Virtual terminal (VTY) lines enable remote access using Telnet or SSH to the device. Many Cisco switches support up to 16 VTY lines that are numbered 0 to 15.
 
-## Fixed Length Subnet Masking (FLSM)
+- To secure VTY lines, enter line VTY mode using the line vty 0 15 global config command. Next, specify the VTY password using the password password command. Lastly, enable VTY access using the login command.
 
-### Key Concepts and Formulas
+- An example of securing the VTY lines on a switch is shown.
+![configure_password(3)](configure_passwords(3).png)
 
-1. **Number of Subnets:**
-   - Formula: \( 2^b \)
-   - \( b \) = number of bits borrowed from the host part to create the subnet part.
+### Encrypt Passwords
 
-2. **Number of Hosts per Subnet:**
-   - Formula: \( 2^h - 2 \)
-   - \( h \) = number of bits remaining for hosts in the subnet.
-   - The subtraction of 2 accounts for the network address and the broadcast address, which cannot be assigned to hosts.
+- The startup-config and running-config files display most passwords in plaintext. This is a security threat because anyone can discover the passwords if they have access to these files.
 
-### Steps to Calculate Subnets and Hosts
+- To encrypt all plaintext passwords, use the service password-encryption global config command as shown in the example
 
-1. **Identify the total number of bits in the IP address.**
-   - For IPv4, it's 32 bits.
+![encrypt_password(1)](encrypt_passwords(1).png)
 
-2. **Determine the default subnet mask for the given network class:**
-   - Class A: Default subnet mask is 255.0.0.0 (/8)
-   - Class B: Default subnet mask is 255.255.0.0 (/16)
-   - Class C: Default subnet mask is 255.255.255.0 (/24)
+- The command applies weak encryption to all unencrypted passwords. This encryption applies only to passwords in the configuration file, not to passwords as they are sent over the network. The purpose of this command is to keep unauthorized individuals from viewing passwords in the configuration file.
 
-3. **Decide on the new subnet mask based on requirements.**
-   - For example, if you need to create more subnets, you borrow bits from the host portion.
+- Use the show running-config command to verify that passwords are now encrypted.
 
-4. **Calculate the number of subnets:**
-   - Determine how many bits you can borrow from the host portion without leaving too few bits for hosts.
-   - Use the formula \( 2^b \) where \( b \) is the number of bits borrowed.
+![encrypt_example(1)](encrypt_examples(1).png)
 
-5. **Calculate the number of hosts per subnet:**
-   - Subtract the number of bits borrowed from the total bits available for hosts.
-   - Use the formula \( 2^h - 2 \), where \( h \) is the remaining bits for hosts.
+### System Files
 
-### Example Calculation
+```
+System Files for Device Configuration:
 
-#### Given:
+1. startup-config:
+   - Location: NVRAM
+   - Purpose: Saved configuration for device startup or reboot
+   - Persistence: Non-volatile; retains contents after power off
+   - Contents: All commands for device operation upon startup
+   
+2. running-config:
+   - Location: RAM
+   - Purpose: Current configuration for device operation
+   - Persistence: Volatile; loses contents after power off or restart
+   - Contents: Reflects real-time configuration changes; immediate impact on device operation
+```
+### Manual IP Configuration
 
-- A Class C network: 192.168.1.0/24
-- We need 4 subnets.
+```
+Manual IP Address Configuration for Windows:
 
-#### Step-by-Step:
+1. Open Control Panel > Network and Sharing Center.
+2. Click on "Change adapter settings."
+3. Right-click on the desired network adapter and select "Properties."
+4. In the adapter properties window, select "Internet Protocol Version 4 (TCP/IPv4)" and click "Properties."
+5. In the IPv4 properties window:
+   - Select "Use the following IP address" if not already selected.
+   - Enter the desired IPv4 address in the "IP address" field.
+   - Enter the subnet mask in the "Subnet mask" field.
+   - Optionally, enter the default gateway in the "Default gateway" field.
+   - You can also specify DNS servers if needed.
+6. Click "OK" to apply the changes and close the windows.
+7. Optionally, you may need to restart the network adapter or the computer for changes to take effect.
 
-1. **Default subnet mask for Class C: /24 (255.255.255.0)**
+Note: Similar steps can be followed for configuring IPv6 addresses.
+```
+### Automatic IP Configuration 
 
-2. **Determine the number of bits to borrow:**
-   - To create 4 subnets: \( 2^b \geq 4 \)
-   - \( b = 2 \) (because \( 2^2 = 4 \))
+```
+Automatic IP Address Configuration (DHCP) for Windows:
 
-3. **New subnet mask:**
-   - Original mask /24 plus 2 borrowed bits: /26
-   - New subnet mask: 255.255.255.192 (/26)
+1. Open Control Panel > Network and Sharing Center.
+2. Click on "Change adapter settings."
+3. Right-click on the desired network adapter and select "Properties."
+4. In the adapter properties window, select "Internet Protocol Version 4 (TCP/IPv4)" and click "Properties."
+5. In the IPv4 properties window:
+   - Select "Obtain an IP address automatically."
+   - Select "Obtain DNS server address automatically."
+6. Click "OK" to apply the changes and close the windows.
+7. Your PC will automatically search for a DHCP server and be assigned the necessary IP address settings to communicate on the network.
 
-4. **Calculate the number of subnets:**
-   - \( 2^b = 2^2 = 4 \)
+Note: DHCP configuration allows for automatic assignment of IPv4 addresses, subnet masks, default gateways, and DNS server addresses, reducing manual configuration effort and minimizing the chance of misconfiguration.
+```
 
-5. **Calculate the number of hosts per subnet:**
-   - Remaining bits for hosts: 32 total bits - 26 subnet bits = 6 bits
-   - \( 2^h - 2 = 2^6 - 2 = 64 - 2 = 62 \)
-   - Each subnet can have 62 hosts.
+### Configuring Switch Virtual Interface (SVI) on Cisco switches
 
-#### Summary:
+![virtual_interface(1)](virtual_interface_configuration(1).png)
 
-- **Number of subnets:** 4
-- **Number of hosts per subnet:** 62
+### Basic Router Configuration
+```
+1.Configure the device name.
 
-### Ensuring Sufficient Subnets and Hosts without Wastage
+Router(config)# hostname hostname
 
-1. **Determine the total number of required subnets and hosts per subnet.**
-   - Ensure the number of bits borrowed for subnets provides at least the required number of subnets.
-   - Ensure the remaining bits for hosts provide at least the required number of hosts.
+2. Secure privileged EXEC mode.
 
-2. **Balance between the number of subnets and the number of hosts:**
-   - If you need more subnets, you will have fewer hosts per subnet (and vice versa).
-   - Borrow only the necessary number of bits to meet your subnet requirements, leaving as many bits as possible for hosts to minimize wastage.
+Router(config)# enable secret password
 
-By carefully planning the number of bits borrowed and the resulting subnet mask, you can efficiently use FLSM to create the required number of subnets and allocate the necessary number of hosts per subnet without wastage.
+3. Secure user EXEC mode.
+
+Router(config)# line console 0
+Router(config-line)# password password
+Router(config-line)# login
+
+4. Secure remote Telnet / SSH access.
+
+Router(config-line)# line vty 0 4
+Router(config-line)# password password
+Router(config-line)# login
+Router(config-line)# transport input {ssh | telnet}
+
+5. Secure all passwords in the config file.
+
+Router(config-line)# exit
+Router(config)# service password-encryption
+
+6. Provide legal notification.
+
+Router(config)# banner motd delimiter message delimiter
+
+7. Save the configuration.
+
+Router(config)# end
+Router# copy running-config startup-config
