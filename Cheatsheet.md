@@ -1,4 +1,4 @@
-Certainly! Here's an organized breakdown of the key protocols across various layers of the networking model:
+# Application Protocols
 
 ### Network Access Layer
 1. **ARP (Address Resolution Protocol)**
@@ -85,3 +85,84 @@ Certainly! Here's an organized breakdown of the key protocols across various lay
 
 ### Summary
 These protocols enable efficient communication and data transfer across different layers of a network, from physical connections to application-level interactions, ensuring that devices can connect, communicate, and exchange data reliably and securely.
+
+---
+# Subnetting
+
+## Fixed Length Subnet Masking (FLSM)
+
+### Key Concepts and Formulas
+
+1. **Number of Subnets:**
+   - Formula: \( 2^b \)
+   - \( b \) = number of bits borrowed from the host part to create the subnet part.
+
+2. **Number of Hosts per Subnet:**
+   - Formula: \( 2^h - 2 \)
+   - \( h \) = number of bits remaining for hosts in the subnet.
+   - The subtraction of 2 accounts for the network address and the broadcast address, which cannot be assigned to hosts.
+
+### Steps to Calculate Subnets and Hosts
+
+1. **Identify the total number of bits in the IP address.**
+   - For IPv4, it's 32 bits.
+
+2. **Determine the default subnet mask for the given network class:**
+   - Class A: Default subnet mask is 255.0.0.0 (/8)
+   - Class B: Default subnet mask is 255.255.0.0 (/16)
+   - Class C: Default subnet mask is 255.255.255.0 (/24)
+
+3. **Decide on the new subnet mask based on requirements.**
+   - For example, if you need to create more subnets, you borrow bits from the host portion.
+
+4. **Calculate the number of subnets:**
+   - Determine how many bits you can borrow from the host portion without leaving too few bits for hosts.
+   - Use the formula \( 2^b \) where \( b \) is the number of bits borrowed.
+
+5. **Calculate the number of hosts per subnet:**
+   - Subtract the number of bits borrowed from the total bits available for hosts.
+   - Use the formula \( 2^h - 2 \), where \( h \) is the remaining bits for hosts.
+
+### Example Calculation
+
+#### Given:
+
+- A Class C network: 192.168.1.0/24
+- We need 4 subnets.
+
+#### Step-by-Step:
+
+1. **Default subnet mask for Class C: /24 (255.255.255.0)**
+
+2. **Determine the number of bits to borrow:**
+   - To create 4 subnets: \( 2^b \geq 4 \)
+   - \( b = 2 \) (because \( 2^2 = 4 \))
+
+3. **New subnet mask:**
+   - Original mask /24 plus 2 borrowed bits: /26
+   - New subnet mask: 255.255.255.192 (/26)
+
+4. **Calculate the number of subnets:**
+   - \( 2^b = 2^2 = 4 \)
+
+5. **Calculate the number of hosts per subnet:**
+   - Remaining bits for hosts: 32 total bits - 26 subnet bits = 6 bits
+   - \( 2^h - 2 = 2^6 - 2 = 64 - 2 = 62 \)
+   - Each subnet can have 62 hosts.
+
+#### Summary:
+
+- **Number of subnets:** 4
+- **Number of hosts per subnet:** 62
+
+### Ensuring Sufficient Subnets and Hosts without Wastage
+
+1. **Determine the total number of required subnets and hosts per subnet.**
+   - Ensure the number of bits borrowed for subnets provides at least the required number of subnets.
+   - Ensure the remaining bits for hosts provide at least the required number of hosts.
+
+2. **Balance between the number of subnets and the number of hosts:**
+   - If you need more subnets, you will have fewer hosts per subnet (and vice versa).
+   - Borrow only the necessary number of bits to meet your subnet requirements, leaving as many bits as possible for hosts to minimize wastage.
+
+By carefully planning the number of bits borrowed and the resulting subnet mask, you can efficiently use FLSM to create the required number of subnets and allocate the necessary number of hosts per subnet without wastage.
