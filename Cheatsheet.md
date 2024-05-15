@@ -86,6 +86,152 @@
 ### Summary
 These protocols enable efficient communication and data transfer across different layers of a network, from physical connections to application-level interactions, ensuring that devices can connect, communicate, and exchange data reliably and securely.
 
+
+## VLSM
+
+Variable Length Subnet Masking (VLSM) is a technique used in IP addressing and subnetting to allocate IP addresses efficiently by allowing different subnets to have subnet masks of varying lengths. This enables more precise allocation of IP addresses based on the needs of each subnet.
+
+Here's a step-by-step explanation of VLSM:
+
+1. **Identify Subnets and Host Requirements**: Begin by listing all the subnets that need to be created, along with their respective host requirements. The host requirement for each subnet is the number of end devices in that subnet plus the default gateway for that subnet.
+
+2. **Order Subnets by Host Requirements**: Arrange the subnets in descending order of their host requirements, starting from the subnet with the highest host requirement to the one with the lowest.
+
+3. **Allocate Prefix Lengths**: For each subnet, find the largest valid prefix length (subnet mask) that can accommodate the host requirement. This involves determining the number of bits required to satisfy the host requirement. The formula to calculate this is \(2^h \geq \text{host requirement}\), where \(h\) is the number of bits remaining in the host portion of the IP address.
+
+4. **Calculate IP Chunk Size**: Once the prefix length is determined for each subnet, calculate the size of the IP chunk for each subnet. This is calculated as \(2^h\), where \(h\) is the number of bits remaining in the host portion after subnetting.
+
+5. **Assign Subnet Addresses**: Start with the subnet address of the largest subnet (with the highest host requirement) and allocate IP addresses accordingly. Then, for each subsequent subnet, calculate the subnet address by adding the size of the IP chunk of the current subnet to the subnet address of the previous subnet.
+
+6. **Configure Subnet Masks**: Assign the appropriate subnet masks to each subnet based on the prefix lengths determined in step 3.
+
+By following these steps, VLSM allows for efficient utilization of IP addresses by allocating them based on the specific requirements of each subnet, thereby reducing IP address wastage and optimizing address space usage.
+
+### Examples 
+
+**Step 1: Identify Subnets and Host Requirements**
+Consider a network that needs to be subnetted into four subnets with the following host requirements:
+- Subnet A: 60 hosts
+- Subnet B: 30 hosts
+- Subnet C: 12 hosts
+- Subnet D: 6 hosts
+
+**Step 2: Order Subnets by Host Requirements**
+Arrange the subnets in descending order of their host requirements:
+1. Subnet A (60 hosts)
+2. Subnet B (30 hosts)
+3. Subnet C (12 hosts)
+4. Subnet D (6 hosts)
+
+**Step 3: Allocate Prefix Lengths**
+For each subnet, find the largest valid prefix length that can accommodate the host requirement.
+
+- Subnet A (60 hosts):
+  - \(2^6 = 64 \geq 60\), so we need at least 6 bits for hosts.
+  - The subnet mask for Subnet A will be /26.
+- Subnet B (30 hosts):
+  - \(2^5 = 32 \geq 30\), so we need at least 5 bits for hosts.
+  - The subnet mask for Subnet B will be /27.
+- Subnet C (12 hosts):
+  - \(2^4 = 16 \geq 12\), so we need at least 4 bits for hosts.
+  - The subnet mask for Subnet C will be /28.
+- Subnet D (6 hosts):
+  - \(2^3 = 8 \geq 6\), so we need at least 3 bits for hosts.
+  - The subnet mask for Subnet D will be /29.
+
+**Step 4: Calculate IP Chunk Size**
+Calculate the size of the IP chunk for each subnet.
+
+- Subnet A (/26): \(2^6 = 64\)
+- Subnet B (/27): \(2^5 = 32\)
+- Subnet C (/28): \(2^4 = 16\)
+- Subnet D (/29): \(2^3 = 8\)
+
+**Step 5: Assign Subnet Addresses**
+Start with a base IP address and allocate addresses for each subnet, ensuring that each subnet falls within its allocated address range.
+
+Let's assume the base IP address is 192.168.1.0:
+
+- Subnet A (/26): 192.168.1.0 (64 hosts)
+- Subnet B (/27): 192.168.1.64 (32 hosts)
+- Subnet C (/28): 192.168.1.96 (16 hosts)
+- Subnet D (/29): 192.168.1.112 (8 hosts)
+
+**Step 6: Configure Subnet Masks**
+Assign the appropriate subnet masks to each subnet based on the prefix lengths determined earlier.
+
+- Subnet A (/26): 255.255.255.192
+- Subnet B (/27): 255.255.255.224
+- Subnet C (/28): 255.255.255.240
+- Subnet D (/29): 255.255.255.248
+
+## VLSM vs FLSM
+
+Sure, let's illustrate both FLSM and VLSM with a simple example:
+
+**Example Scenario:**
+Suppose we have a network with the IP address range 192.168.1.0/24 and we need to create four subnets with the following host requirements:
+1. Subnet A: 60 hosts
+2. Subnet B: 30 hosts
+3. Subnet C: 12 hosts
+4. Subnet D: 6 hosts
+
+**Fixed Length Subnet Masking (FLSM) Example:**
+
+For FLSM, we'll divide the network into four equal-sized subnets, each with a subnet mask of /26 (which provides 64 hosts per subnet).
+
+- Subnet A: 192.168.1.0/26 (addresses 192.168.1.1 to 192.168.1.62, with 192.168.1.0 reserved as the network address and 192.168.1.63 reserved as the broadcast address)
+- Subnet B: 192.168.1.64/26 (addresses 192.168.1.65 to 192.168.1.126)
+- Subnet C: 192.168.1.128/26 (addresses 192.168.1.129 to 192.168.1.190)
+- Subnet D: 192.168.1.192/26 (addresses 192.168.1.193 to 192.168.1.254)
+
+With FLSM, each subnet gets the same number of IP addresses (64), regardless of its actual host requirement. This may lead to inefficient utilization of IP addresses.
+
+**Variable Length Subnet Masking (VLSM) Example:**
+
+For VLSM, we'll allocate subnet masks based on the specific host requirements of each subnet, starting with the subnet requiring the largest number of hosts.
+
+1. Subnet A: Requires 60 hosts. We can use a /26 subnet mask (providing 64 hosts).
+2. Subnet B: Requires 30 hosts. We can use a /27 subnet mask (providing 32 hosts).
+3. Subnet C: Requires 12 hosts. We can use a /28 subnet mask (providing 16 hosts).
+4. Subnet D: Requires 6 hosts. We can use a /29 subnet mask (providing 8 hosts).
+
+- Subnet A: 192.168.1.0/26 (addresses 192.168.1.1 to 192.168.1.62)
+- Subnet B: 192.168.1.64/27 (addresses 192.168.1.65 to 192.168.1.94)
+- Subnet C: 192.168.1.96/28 (addresses 192.168.1.97 to 192.168.1.110)
+- Subnet D: 192.168.1.112/29 (addresses 192.168.1.113 to 192.168.1.118)
+
+With VLSM, each subnet gets a subnet mask tailored to its specific host requirement, resulting in more efficient utilization of IP addresses compared to FLSM.
+
+# Copper Media
+
+Shielding:
+Purpose: Shields in cables protect against electromagnetic and radio frequency interference (EMI/RFI) that can disrupt signals.
+Types:
+- Foil Shielding: Consists of a thin layer of metallic foil.
+- Braided Shielding: Comprises a woven mesh of metallic strands.
+Applications: Commonly used in environments with high interference, such as industries and data centers.
+
+Twisted Pair Cables:
+Structure: Made up of pairs of twisted copper wires to reduce interference.
+Types:
+- STP (Shielded Twisted Pair): Includes external shielding for added protection.
+- UTP (Unshielded Twisted Pair): Relies solely on twisting for interference reduction.
+Usage: Widely utilized in Ethernet networks and telecommunications systems.
+
+Coaxial Cables:
+Shielding: Equipped with built-in shielding comprising layers for signal protection.
+Applications: Frequently employed in cable TV connections, broadband internet, and high-frequency data transmission scenarios.
+
+Fiber Optic Cables:
+Immunity: Immune to EMI/RFI interference due to their light-based signal transmission.
+Advantages: Offer high bandwidth, minimal signal loss over long distances, and secure data transmission capabilities.
+
+![Network Media](image-1.png)
+![Topology](image.png)
+<sub><sup>Left is physical, Right is Logical</sup></sub>
+
+
 Sure, here's a condensed cheat sheet based on the provided information:
 
 ---
