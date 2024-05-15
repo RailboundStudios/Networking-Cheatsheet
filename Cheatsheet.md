@@ -157,3 +157,14 @@ Switch(config)# banner motd #<Message>#
 
 ### IOS Command Syntax Check
 ![command_sytnax](command_syntax_check.png)
+
+### Configure Password
+![configure_password](configure_passwords(1).png)
+
+- Console access will now require a password before allowing access to the user EXEC mode.
+
+- To have administrator access to all IOS commands including configuring a device, you must gain privileged EXEC mode access. It is the most important access method because it provides complete access to the device.
+
+- To secure privileged EXEC access, use the enable secret password global config command, as shown in the example.
+
+![configure_password](image.png)
