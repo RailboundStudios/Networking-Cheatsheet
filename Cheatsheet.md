@@ -167,4 +167,4 @@ Switch(config)# banner motd #<Message>#
 
 - To secure privileged EXEC access, use the enable secret password global config command, as shown in the example.
 
-![configure_password](image.png)
+![configure_password](configure_passwords(2).png)
