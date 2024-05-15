@@ -167,4 +167,80 @@ Switch(config)# banner motd #<Message>#
 
 - To secure privileged EXEC access, use the enable secret password global config command, as shown in the example.
 
-![configure_password](configure_passwords(2).png)
+![configure_password(2)](configure_passwords(2).png)
+
+- Virtual terminal (VTY) lines enable remote access using Telnet or SSH to the device. Many Cisco switches support up to 16 VTY lines that are numbered 0 to 15.
+
+- To secure VTY lines, enter line VTY mode using the line vty 0 15 global config command. Next, specify the VTY password using the password password command. Lastly, enable VTY access using the login command.
+
+- An example of securing the VTY lines on a switch is shown.
+![configure_password(3)](configure_passwords(3).png)
+
+### Encrypt Passwords
+
+- The startup-config and running-config files display most passwords in plaintext. This is a security threat because anyone can discover the passwords if they have access to these files.
+
+- To encrypt all plaintext passwords, use the service password-encryption global config command as shown in the example
+
+![encrypt_password(1)](encrypt_passwords(1).png)
+
+- The command applies weak encryption to all unencrypted passwords. This encryption applies only to passwords in the configuration file, not to passwords as they are sent over the network. The purpose of this command is to keep unauthorized individuals from viewing passwords in the configuration file.
+
+- Use the show running-config command to verify that passwords are now encrypted.
+
+![encrypt_example(1)](encrypt_examples(1).png)
+
+### System Files
+
+```
+System Files for Device Configuration:
+
+1. startup-config:
+   - Location: NVRAM
+   - Purpose: Saved configuration for device startup or reboot
+   - Persistence: Non-volatile; retains contents after power off
+   - Contents: All commands for device operation upon startup
+   
+2. running-config:
+   - Location: RAM
+   - Purpose: Current configuration for device operation
+   - Persistence: Volatile; loses contents after power off or restart
+   - Contents: Reflects real-time configuration changes; immediate impact on device operation
+```
+### Manual IP Configuration
+
+```
+Manual IP Address Configuration for Windows:
+
+1. Open Control Panel > Network and Sharing Center.
+2. Click on "Change adapter settings."
+3. Right-click on the desired network adapter and select "Properties."
+4. In the adapter properties window, select "Internet Protocol Version 4 (TCP/IPv4)" and click "Properties."
+5. In the IPv4 properties window:
+   - Select "Use the following IP address" if not already selected.
+   - Enter the desired IPv4 address in the "IP address" field.
+   - Enter the subnet mask in the "Subnet mask" field.
+   - Optionally, enter the default gateway in the "Default gateway" field.
+   - You can also specify DNS servers if needed.
+6. Click "OK" to apply the changes and close the windows.
+7. Optionally, you may need to restart the network adapter or the computer for changes to take effect.
+
+Note: Similar steps can be followed for configuring IPv6 addresses.
+```
+### Automatic IP Configuration
+
+```
+Automatic IP Address Configuration (DHCP) for Windows:
+
+1. Open Control Panel > Network and Sharing Center.
+2. Click on "Change adapter settings."
+3. Right-click on the desired network adapter and select "Properties."
+4. In the adapter properties window, select "Internet Protocol Version 4 (TCP/IPv4)" and click "Properties."
+5. In the IPv4 properties window:
+   - Select "Obtain an IP address automatically."
+   - Select "Obtain DNS server address automatically."
+6. Click "OK" to apply the changes and close the windows.
+7. Your PC will automatically search for a DHCP server and be assigned the necessary IP address settings to communicate on the network.
+
+Note: DHCP configuration allows for automatic assignment of IPv4 addresses, subnet masks, default gateways, and DNS server addresses, reducing manual configuration effort and minimizing the chance of misconfiguration.
+```
