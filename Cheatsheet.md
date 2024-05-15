@@ -227,7 +227,7 @@ Manual IP Address Configuration for Windows:
 
 Note: Similar steps can be followed for configuring IPv6 addresses.
 ```
-### Automatic IP Configuration
+### Automatic IP Configuration 
 
 ```
 Automatic IP Address Configuration (DHCP) for Windows:
